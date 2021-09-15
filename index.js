@@ -1,29 +1,19 @@
-const http = require('http');
-const server = new http.Server();
-const fs = require('fs');
+const express = require('express')
+const pokeapi = require('./pokeapi')
 
-server.on('request',(req, res)=>{
-    if(req.url == '/'){
-        const info = await obtenerArchivo2 ({path: './views/inex.html'})
-        res.end(info);
-    }
+const app = express();
+
+app.listen(8000, ()=>{
+    console.log('servidor cargado en el puerto')
 })
 
-function obtenerArchivo(path, res) {
-    fs.readFile(path,(err, info) =>{
-        if(err){ res.end('error')}
-        res.end(info);
-    });
-}
+//app.get('/',(req, res) => {
+//    res.status(200).send('hola mundo')
+//})
 
-const obtenerArchivo2 = (path) =>
-    new Promise((resolve, reject) => {
-		fs.readFile(path,(err, info) =>{
-            if(err) {reject('error')}
-            resolve(info);
-        });
-    });
+app.get('/', async (req, res) => {
+    const {data:{results}} = await pokeapi.pokemones();
+    //console.log(results);
+    res.render('index.ejs', {pokemones : results});
+});
 
-
-
-server.listen(8001);

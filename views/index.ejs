@@ -1,0 +1,15 @@
+<html>
+    <head></head>
+    <body>
+
+    <h1>Pokemones</h1>
+
+    <% pokemones.forEach(function(poke){ %>
+        <tr>
+          <td><%= poke.name %></td>
+          <td><a href="<%= poke.url %>" target="blank"><%= poke.url %></a></td>                
+        </tr>
+      <% }); %>
+
+</body>
+</html>
